@@ -32,6 +32,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         super.viewWillAppear(animated)
 
         let configuration = ARImageTrackingConfiguration()
+        
+        if let trackingImages = ARReferenceImage.referenceImages(inGroupNamed: "Buisiness Cards", bundle: Bundle.main) {
+            configuration.trackingImages = trackingImages
+            configuration.maximumNumberOfTrackedImages = 2
+        }
 
         sceneView.session.run(configuration)
     }
@@ -52,8 +57,20 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             let planeNode = SCNNode(geometry: plane)
             planeNode.eulerAngles.x = -.pi/2
             node.addChildNode(planeNode)
+         
+            var shapeNode: SCNNode?
+            if imageAnchor.referenceImage.name == "businessCard" {
+                shapeNode = swiftNode
+            } else {
+                shapeNode = gitHubNode
+            }
+            
+            guard let shape = shapeNode else { return nil}
+            node.addChildNode(shape)
+            
         }
-        return node
+      return node
     }
+
 
 }
