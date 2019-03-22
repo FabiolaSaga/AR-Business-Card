@@ -59,11 +59,22 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             node.addChildNode(planeNode)
          
             var shapeNode: SCNNode?
-            if imageAnchor.referenceImage.name == "businessCard" {
+            
+            switch imageAnchor.referenceImage.name {
+                
+            case CardType.businessCard.rawValue :
                 shapeNode = swiftNode
-            } else {
+            case CardType.businessCardBack.rawValue:
                 shapeNode = gitHubNode
+            default:
+                break
             }
+            
+//            if imageAnchor.referenceImage.name == "businessCard" {
+//                shapeNode = swiftNode
+//            } else {
+//                shapeNode = gitHubNode
+//            }
             
             guard let shape = shapeNode else { return nil}
             node.addChildNode(shape)
@@ -73,4 +84,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
 
 
+}
+
+enum CardType: String {
+    
+    case businessCard = "businessCard"
+    case businessCardBack = "businessCardBack"
+    
 }
